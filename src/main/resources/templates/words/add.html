@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить слово</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column; /* Добавляем flex-direction: column; для вертикального выравнивания */
+        }
+
+        form {
+            margin: auto;
+            text-align: center;
+        }
+
+        .top-left {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+    </style>
+</head>
+<body>
+<form action="/words/add" method="post" th:object="${word}">
+    <label for="name">Введите слово на русском</label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+    <br/>
+    <label for="translation">Введите перевод слова(на английском)</label>
+    <input type="text" th:field="*{translation}" id="translation"/>
+    <div style="color: red" th:if="${#fields.hasErrors('translation')}" th:errors="*{translation}">Translation Error</div>
+    <br/>
+    <input type="submit" value="Добавить слово"/>
+</form>
+
+<form action="/words" class="top-left">
+    <button>Вернуться на страницу слов</button>
+</form>
+</body>
+</html>

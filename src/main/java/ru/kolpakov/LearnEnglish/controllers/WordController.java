@@ -18,12 +18,9 @@ public class WordController {
     }
 
     @GetMapping()
-    public String getAllWords(){
+    public String getAllWords(Model model){
+    model.addAttribute("words",wordService.findAll());
         return "words/all_words";
-    }
-    @GetMapping("/{id}")
-    public String getOneWord(@PathVariable("id") int id){
-        return "words/one_word";
     }
     @GetMapping("/add")
     public String addPage(Model model){
@@ -35,8 +32,8 @@ public class WordController {
         wordService.addWord(word);
         return "redirect:/words";
     }
-    @DeleteMapping()
-    public String deleteWord(@RequestParam("id") int id){
+    @DeleteMapping("/{id}")
+    public String deleteWord(@PathVariable("id") int id){
         wordService.deleteWordById(id);
         return "redirect:/words";
     }
