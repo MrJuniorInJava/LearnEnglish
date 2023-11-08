@@ -35,7 +35,7 @@
     <input type="text" th:field="*{translation}" id="translation"/>
     <div style="color: red" th:if="${#fields.hasErrors('translation')}" th:errors="*{translation}">Translation Error</div>
     <br/>
-    <input type="submit" value="Добавить слово"/>
+    <input type="submit" value="Добавить карточку"/>
 </form>
 
 <form action="/words" class="top-left">

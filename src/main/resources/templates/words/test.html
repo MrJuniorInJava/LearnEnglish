@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- ... мета-теги и стили ... -->
+</head>
+<body>
+<h2>English Quiz</h2>
+
+<div th:unless="${testCompleted}">
+    <form th:action="@{/words/test}" method="post">
+        <div>
+            <p th:text="${word.getName()}"></p>
+            <input type="text" name="translation" placeholder="Введите перевод" required>
+            <button type="submit">Ответить</button>
+        </div>
+    </form>
+
+    <div th:if="${correctAnswer}">
+        <p style="color: green;">Верный ответ! Переход к следующему вопросу.</p>
+    </div>
+
+    <div th:if="${incorrectAnswer}">
+        <p style="color: red;">Неверный ответ. Попробуй еще раз.</p>
+    </div>
+</div>
+
+<div th:if="${testCompleted}">
+    <p style="color: green;">Тест завершен. Вы ответили на все вопросы!</p>
+</div>
+<br/>
+<br/>
+<form action="/words">
+    <button>Вернуться на страницу карточек</button>
+</form>
+</body>
+</html>

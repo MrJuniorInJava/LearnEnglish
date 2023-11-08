@@ -10,9 +10,13 @@ import ru.kolpakov.LearnEnglish.models.Word;
 import ru.kolpakov.LearnEnglish.services.WordService;
 import ru.kolpakov.LearnEnglish.utils.WordUniqueValidator;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/words")
 public class WordController {
+    private List<Word> words;
+    private int currentQuestionIndex = 0;
     private final WordService wordService;
     private final WordUniqueValidator wordUniqueValidator;
 
@@ -45,10 +49,41 @@ public class WordController {
         return "redirect:/words";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public String deleteWord(@PathVariable("id") int id) {
         wordService.deleteWordById(id);
         return "redirect:/words";
+    }
+    @GetMapping("/test")
+    public String showTest(Model model) {
+        words = wordService.findAll();
+        model.addAttribute("word", words.get(currentQuestionIndex));
+        model.addAttribute("correctAnswer", false);
+        model.addAttribute("incorrectAnswer", false);
+        model.addAttribute("testCompleted", false);
+        return "words/test";
+    }
+
+    @PostMapping("/test")
+    public String submitTest(@RequestParam("translation") String answer, Model model) {
+        Word currentWord = words.get(currentQuestionIndex);
+
+        if (answer.equalsIgnoreCase(currentWord.getTranslation())) {
+            model.addAttribute("correctAnswer", true);
+        currentQuestionIndex++;
+        } else {
+            model.addAttribute("incorrectAnswer", true);
+        }
+
+
+        if (currentQuestionIndex < words.size()) {
+            model.addAttribute("word", words.get(currentQuestionIndex));
+            return "words/test";
+        } else {
+            model.addAttribute("testCompleted", true);
+            currentQuestionIndex=0;
+            return "words/test";
+        }
     }
 
 }
