@@ -10,6 +10,7 @@ import ru.kolpakov.LearnEnglish.models.Word;
 import ru.kolpakov.LearnEnglish.services.WordService;
 import ru.kolpakov.LearnEnglish.utils.WordUniqueValidator;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -49,14 +50,15 @@ public class WordController {
         return "redirect:/words";
     }
 
-    @PostMapping()
+    @PostMapping("/delete")
     public String deleteWord(@RequestParam("id") int id) {
         wordService.deleteWordById(id);
         return "redirect:/words";
     }
     @GetMapping("/test")
     public String showTest(Model model) {
-        words = wordService.findAll();
+        words =  wordService.findAll();
+        Collections.shuffle(words);
         model.addAttribute("word", words.get(currentQuestionIndex));
         model.addAttribute("correctAnswer", false);
         model.addAttribute("incorrectAnswer", false);

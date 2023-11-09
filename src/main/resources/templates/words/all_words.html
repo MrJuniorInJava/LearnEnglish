@@ -64,7 +64,7 @@
                 </div>
                 <div class="card-face back">
                     <p th:text="${word.getTranslation()}">Перевод</p>
-                    <form th:method="DELETE" th:action="@{/words}">
+                    <form th:method="DELETE" th:action="@{/words/delete}">
                         <input type="hidden" name="id" th:value="${word.getId()}"/>
                         <button>Удалить карточку</button>
                     </form>
