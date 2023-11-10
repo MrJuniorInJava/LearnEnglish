@@ -54,6 +54,16 @@
 </head>
 <body>
 <h2>English Quiz</h2>
+<br/>
+<br/>
+<form action="/words/add">
+    <button>Добавить новую карточку</button>
+</form>
+<br/>
+<br/>
+<form action="/words/test">
+    <button>Пройти тест</button>
+</form>
 <div class="card-container">
 
     <div  th:each="word : ${words}">
@@ -74,13 +84,5 @@
         <br/>
     </div>
 </div>
-<form action="/words/add">
-    <button>Добавить новую карточку</button>
-</form>
-<br/>
-<br/>
-<form action="/words/test">
-    <button>Пройти тест</button>
-</form>
 </body>
 </html>

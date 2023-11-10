@@ -10,7 +10,7 @@
     <form th:action="@{/words/test}" method="post">
         <div>
             <p th:text="${word.getName()}"></p>
-            <input type="text" name="translation" placeholder="Введите перевод" required>
+            <input type="text" name="translation" placeholder="Введите перевод" required th:autofocus="true">
             <button type="submit">Ответить</button>
         </div>
     </form>
