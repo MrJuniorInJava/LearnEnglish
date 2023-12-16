@@ -64,9 +64,19 @@
 <form action="/words/test">
     <button>Пройти тест</button>
 </form>
+<br/>
+<br/>
+<form th:method="UPDATE" th:action="@{/words}">
+    <label for="sort_type-select"></label>
+    <select name="sort_type" id="sort_type-select">
+        <option value="DateOfCreation">По дате</option>
+        <option value="Name">По имени</option>
+    </select>
+    <input type="submit" value="Отсортировать!"/>
+</form>
 <div class="card-container">
 
-    <div  th:each="word : ${words}">
+    <div th:each="word : ${words}">
         <div class="card">
             <div class="card-inner">
                 <div class="card-face front">

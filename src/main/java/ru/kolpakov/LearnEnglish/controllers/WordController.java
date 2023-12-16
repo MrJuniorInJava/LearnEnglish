@@ -10,7 +10,9 @@ import ru.kolpakov.LearnEnglish.models.Word;
 import ru.kolpakov.LearnEnglish.services.WordService;
 import ru.kolpakov.LearnEnglish.utils.WordUniqueValidator;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -30,6 +32,12 @@ public class WordController {
     @GetMapping()
     public String getAllWords(Model model) {
         model.addAttribute("words", wordService.findAll());
+        return "words/all_words";
+    }
+    @PostMapping()
+    public String sortWords(@RequestParam(value = "sort_type", required = false) String typeSort,
+                                Model model) {
+        model.addAttribute("words", wordService.sortWords(typeSort));
         return "words/all_words";
     }
 

@@ -5,9 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kolpakov.LearnEnglish.models.Word;
 import ru.kolpakov.LearnEnglish.repositories.WordsRepository;
+import ru.kolpakov.LearnEnglish.utils.IncorrectSortTypeName;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,21 +22,55 @@ public class WordService {
     public WordService(WordsRepository wordsRepository) {
         this.wordsRepository = wordsRepository;
     }
+
     @Transactional
-    public void addWord(Word word){
+    public void addWord(Word word) {
+        word.setDateOfCreation(LocalDateTime.now());
         wordsRepository.save(word);
     }
+
     @Transactional
-    public void deleteWordById(int id){
+    public void deleteWordById(int id) {
         wordsRepository.deleteById(id);
     }
-    public List<Word> findAll(){
+
+    public List<Word> sortWords(String typeSort) {
         List<Word> words = wordsRepository.findAll();
-        words.sort(Comparator.comparing(Word::getName));
-        return  words;
+        if (typeSort.equals("Name") || typeSort.equals("DateOfCreation")) {
+            switch (typeSort) {
+                case "Name":
+                    words.sort(Comparator.comparing(Word::getName));
+                    break;
+                case "DateOfCreation":
+                    words.sort((o1, o2) -> {
+                        if (o1.getDateOfCreation().isBefore(o2.getDateOfCreation())) {
+                            return 1;
+                        } else if (o1.getDateOfCreation().isAfter(o2.getDateOfCreation())) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                    break;
+            }
+            return words;
+        } else {
+            throw new IncorrectSortTypeName("Incorrect sort type name " + typeSort);
+        }
     }
-    public Word findWordById(int id){
-        return wordsRepository.findById(id).orElse(null);
+
+    public List<Word> findAll() {
+        List<Word> words = wordsRepository.findAll();
+        words.sort((o1, o2) -> {
+            if (o1.getDateOfCreation().isBefore(o2.getDateOfCreation())) {
+                return 1;
+            } else if (o1.getDateOfCreation().isAfter(o2.getDateOfCreation())) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+        return words;
     }
 
 

@@ -3,7 +3,8 @@ package ru.kolpakov.LearnEnglish.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.UniqueElements;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Word")
@@ -20,6 +21,8 @@ public class Word {
     @NotEmpty(message = "Поле не должено быть пустым")
     @Pattern(regexp = "[a-zA-Z ]+$", message = "Перевод должен содержать только буквы английского алфавита")
     private String translation;
+    @Column(name = "created_at")
+    private LocalDateTime dateOfCreation;
 
     public int getId() {
         return id;
@@ -43,5 +46,13 @@ public class Word {
 
     public void setTranslation(String translation) {
         this.translation = translation;
+    }
+
+    public LocalDateTime getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public void setDateOfCreation(LocalDateTime dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
     }
 }
