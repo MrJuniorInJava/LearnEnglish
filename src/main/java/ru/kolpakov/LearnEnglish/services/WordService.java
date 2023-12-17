@@ -34,6 +34,9 @@ public class WordService {
     public void deleteWordById(int id) {
         wordsRepository.deleteById(id);
     }
+    public Word findWordById(int id) {
+        return wordsRepository.findById(id).get();
+    }
 
     public List<Word> sortWords(String typeSort) {
         List<Word> words = wordsRepository.findAll();

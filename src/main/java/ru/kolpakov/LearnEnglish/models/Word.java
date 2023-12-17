@@ -55,4 +55,13 @@ public class Word {
     public void setDateOfCreation(LocalDateTime dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", translation='" + translation + '\'' +
+                '}';
+    }
 }

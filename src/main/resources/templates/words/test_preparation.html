@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .word-container {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .selected {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+<form action="/words/test" method="get" id="testForm">
+    <button type="button" onclick="selectAll()">Выбрать все</button>
+    <br/>
+    <div th:each="word : ${words}" class="word-container">
+        <input type="checkbox" name="selectedWords" th:value="${word.getId()}" th:id="${'wordCheckbox_' + word.getId()}" />
+        <label th:for="${'wordCheckbox_' + word.getId()}" th:text="${word.getName()} + ' | ' + ${word.getTranslation()}"></label>
+    </div>
+    <button type="button" onclick="startTest()">Начать тест</button>
+</form>
+<br/>
+<br/>
+<form action="/words">
+    <button>Вернуться на страницу карточек</button>
+</form>
+
+<script>
+    function selectAll() {
+        var checkboxes = document.querySelectorAll('input[name="selectedWords"]');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
+    }
+    function startTest() {
+        var selectedWordIds = [];
+        document.querySelectorAll('input[name="selectedWords"]:checked').forEach(function (checkbox) {
+            selectedWordIds.push(checkbox.value);
+        });
+
+        var params = new URLSearchParams();
+        selectedWordIds.forEach(function(id) {
+            params.append('selectedWordIds', id);
+        });
+
+        var queryString = params.toString();
+        document.getElementById("testForm").submit();
+    }
+</script>
+</body>
+</html>
