@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,24 @@ public class WordService {
         } else {
             throw new IncorrectSortTypeName("Incorrect sort type name " + typeSort);
         }
+    }
+    public List<Word> searchByFirstChars(String name){
+        String lowercaseName = name.toLowerCase();
+
+        boolean isEnglish = lowercaseName.matches(".*[a-zA-Z].*");
+
+        return wordsRepository.findAll().stream()
+                .filter(word -> {
+                    String wordName = word.getName().toLowerCase();
+                    String translation = word.getTranslation().toLowerCase();
+
+                    if (isEnglish) {
+                        return wordName.contains(lowercaseName) || translation.contains(lowercaseName);
+                    } else {
+                        return wordName.contains(lowercaseName);
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
     public List<Word> findAll() {

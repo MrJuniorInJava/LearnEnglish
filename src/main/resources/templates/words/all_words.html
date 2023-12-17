@@ -55,6 +55,11 @@
 <body>
 <h2>English Quiz</h2>
 <br/>
+<form th:method="UPDATE" th:action="@{/words/search}">
+    <label for="name">Введите поисковой запрос</label>
+    <input type="text" id="name" name="name"/>
+    <input type="submit" value="Искать!"/>
+</form>
 <br/>
 <form action="/words/add">
     <button>Добавить новую карточку</button>

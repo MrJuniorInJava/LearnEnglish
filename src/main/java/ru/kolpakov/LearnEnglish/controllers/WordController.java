@@ -34,6 +34,12 @@ public class WordController {
         model.addAttribute("words", wordService.findAll());
         return "words/all_words";
     }
+    @PostMapping("/search")
+    public String searchProduct(@RequestParam(value = "name", required = false) String name,
+                                Model model) {
+        model.addAttribute("words", wordService.searchByFirstChars(name));
+        return "words/all_words";
+    }
     @PostMapping()
     public String sortWords(@RequestParam(value = "sort_type", required = false) String typeSort,
                                 Model model) {
